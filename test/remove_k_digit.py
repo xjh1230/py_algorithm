@@ -12,7 +12,7 @@ class Solution:
         '''
         :param num: str
         :param k: int
-        :return: str
+        :return: str 84ms
         '''
         result = ''
         count = 0
@@ -45,16 +45,25 @@ class Solution:
 
     def remove_k_digits2(self, num, k):
         '''
+        思路
+            1:扣除后剩余<=0的返回0
+            2:从第i(0)位循环到最后一位，
+                2.1:判断结果集为空，将当前初始化到结果集[]i++
+                2.2:结果集最后一位大于当前位置 将结果集最后一位pop k--(此时表示已经删除一位数字),否则将当前位置push结果集 i++
+                2.3:k==0(已经删除k个数字) 循环可以跳出 跳出后将剩余没有循环到的数字 append到结果集
+                2.4:i==len(num) 循环跳出  跳出后如果删除的字数不够,此时结果集已经是从大到小排序 直接截取结果集合前n位即可
+            3:将结果集前面的0删除,全是0或者空时 返回0
+            4:返回结果集
         :param num: str
         :param k: int
-        :return: str
+        :return: str  52ms
         '''
         result = []
         count = len(num) - k
         if count <= 0:
             return '0'
         i = 0
-        while i < len(num) and k > 0:  # len(result) < count and
+        while i < len(num) and k > 0:
             if len(result) == 0:
                 result.append(num[i])
                 i += 1
@@ -67,8 +76,11 @@ class Solution:
                     result.append(num[i])
                     i += 1
         # print(result, i)
-        result = result + [k for k in num[i:]]
-        print(result)
+        if k <= 0:
+            result = result + [t for t in num[i:]]
+        else:
+            result = result[0:count]
+        # print(result)
         offset = 0
         for i in range(len(result) - 1):
             if int(result[i]) == 0:
@@ -77,7 +89,7 @@ class Solution:
                 break
         result = [0] if offset >= len(result) else result[offset:]
         # print(result)
-        result = result[0:count if count > 1 else 1]
+        # result = result[0:count if count > 1 else 1]
         return ''.join(result)
 
     def test(self):
