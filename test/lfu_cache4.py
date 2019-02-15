@@ -79,8 +79,11 @@ put(key, value) - 如果键不存在，请设置或插入值。当缓存达到�
     def _set_count(self, node):
         if not self.lase_node:
             self.lase_node = node
-        elif self.lase_node.key == node.key and node.front_node:
-            self.lase_node = node.front_node
+        elif self.lase_node.key == node.key:
+            if node.next_node:
+                self.lase_node = node.next_node
+            elif node.front_node:
+                self.lase_node = node.next_node
         elif self.lase_node.count > node.count + 1:
             self.lase_node = node
         count = node.count
@@ -172,4 +175,3 @@ if __name__ == '__main__':
         else:
             # print(li[i])
             obj.put(li[i][0], li[i][1])
-
