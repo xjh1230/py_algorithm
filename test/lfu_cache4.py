@@ -66,9 +66,11 @@ put(key, value) - 如果键不存在，请设置或插入值。当缓存达到�
 
     def _remove_expire(self):
         if len(self.dic) >= self.capacity:  # 找到需要删除的值，
-            # print('超出范围')
             try:
                 tmp = self.lase_node
+                dic_tmp = self.dic_count.get(tmp.count, None)
+                if dic_tmp and dic_tmp.key == tmp.key:
+                    self.dic_count[tmp.count] = None
                 del self.dic[tmp.key]
                 self.lase_node = tmp.front_node
                 if tmp.front_node:
@@ -81,107 +83,92 @@ put(key, value) - 如果键不存在，请设置或插入值。当缓存达到�
                 print('except', self.lase_node, self.lase_node.key, len(self.dic), self.capacity)
 
     def _set_count(self, node):
-
-        # 当前节点从链表中移除
-        if node.front_node:
-            node.front_node.next_node = node.next_node
-        if node.next_node:
-            node.next_node.front_node = node.front_node
-
-        # print(node.key,'+++++')
-        # 更新最后一个元素信息
         node.count += 1
-        if self.lase_node is None:
-            self.lase_node = node
-            return
-        elif self.lase_node.count > node.count:
-            node.front_node = self.lase_node
-            node.next_node = None
-            self.lase_node.next_node = node
-            self.lase_node = node
-            return
-        elif self.lase_node.key == node.key:
-            if node.front_node is None:
-                return
+        self.max_count = node.count if node.count > self.max_count else self.max_count
+        # 新来的
+        if node.count == 1:
+            # 当前链表是空的
+            if self.lase_node is None:
+                self.lase_node = node
             else:
-                self.lase_node = node.front_node
-
-        # 将当前节点放入对应位置
-        count = node.count
-        if node.front_node is None:
-            if node.next_node:  # 当前节点是最开始节点
-                node.next_node.front_node = node
-        else:  # 找到当前节点位置
-            tmp_node = node.front_node
-            while True:
-                if tmp_node.front_node is None or tmp_node.front_node.count > count:
-                    break
+                tmp_node = self.dic_count.get(node.count, None)
+                if tmp_node is None:
+                    node.front_node = self.lase_node
+                    self.lase_node.next_node = node
+                    self.lase_node = node
                 else:
-                    tmp_node = tmp_node.front_node
-            # if tmp_node.key != node.key:
-            node.front_node = tmp_node.front_node
-            if tmp_node.front_node:
-                tmp_node.front_node.next_node = node
-            node.next_node = tmp_node
-            tmp_node.front_node = node
+                    if tmp_node.front_node:
+                        tmp_node.front_node.next_node = node
+                    node.front_node = tmp_node.front_node
+                    node.next_node = tmp_node
+                    tmp_node.front_node = node
 
-        i = 0
-        # # 更新当前使用次数dict
-        # count = node.count
-        # tmp_node = self.dic_count.get(count, None)
-        # if tmp_node and tmp_node.key == node.key:
-        #     tmp_node = node.next_node
-        #     if tmp_node and tmp_node.count == count:
-        #         self.dic_count[count] = tmp_node
-        #     else:
-        #         self.dic_count[count] = None
-        #
-        # # 更新下一次使用次数dic，同时赋值当前node的前后节点
-        # count += 1
-        # node.count = count
-        # self.max_count = count if count > self.max_count else self.max_count
-        #
-        # tmp_node = self.dic_count.get(count, None)
-        # if tmp_node:
-        #     if tmp_node.front_node:
-        #         tmp_node.front_node.next_node = node
-        #     node.front_node = tmp_node.front_node
-        #
-        #     node.next_node = tmp_node
-        #     tmp_node.front_node = node
-        # else:
-        #     # 设置next_node
-        #     tmp_count = count - 1
-        #     while tmp_count > 0:
-        #         tmp_node = self.dic_count.get(tmp_count, None)
-        #         if tmp_node:
-        #             node.next_node = tmp_node
-        #             tmp_node.front_node = node
-        #             break
-        #         tmp_count -= 1
-        #     # 设置front_node
-        #     tmp_count = count
-        #     while tmp_count < self.max_count:
-        #         tmp_node = self.dic_count.get(tmp_count, None)
-        #         if tmp_node:
-        #             while tmp_node.next_node:
-        #                 if tmp_node.next_node and tmp_node.next_node.count == node.count:
-        #                     tmp_node = tmp_node.next_node
-        #                 else:
-        #                     break
-        #             if tmp_node.next_node:
-        #                 tmp_node.next_node = node
-        #                 node.front_node = tmp_node
-        #             else:
-        #                 tmp_node.next_node = node
-        #                 node.front_node = tmp_node
-        #         tmp_count += 1
-        # self.dic_count[count] = node
+                if self.lase_node.count > node.count:
+                    self.lase_node = node
+        else:
+            # node从链表中删除
+            if node.front_node:
+                node.front_node.next_node = node.next_node
+            if node.next_node:
+                node.next_node.front_node = node.front_node
+            tmp_count = node.count - 1
+            tmp_node = self.dic_count.get(tmp_count)
+            if tmp_node.key == node.key:
+                self.dic_count[tmp_count] = node.next_node if node.next_node and node.next_node.count == tmp_count \
+                    else None
+            # 如果最后一个node是当前node，并且当前node的front_node.count<=当前node.count
+            # 则更新last_node为当前node.front_node
+            if self.lase_node.key == node.key and node.front_node and node.front_node.count <= node.count:
+                self.lase_node = node.front_node
+            # 将当前node的前后node清空
+            node.front_node = None
+            node.next_node = None
+            tmp_node = self.dic_count.get(node.count, None)
+            if tmp_node:
+                node.front_node = tmp_node.front_node
+                if tmp_node.front_node:
+                    tmp_node.front_node.next_node = node
+                node.next_node = tmp_node
+                tmp_node.front_node = node
+            else:
+                tmp_count = node.count - 1
+                while tmp_count > 0:
+                    tmp_node = self.dic_count.get(tmp_count, None)
+                    if tmp_node:
+                        tmp_node.front_node = node
+                        node.next_node = tmp_node
+                        break
+                    tmp_count -= 1
+                tmp_count = node.count + 1
+                while tmp_count <= self.max_count:
+                    tmp_node = self.dic_count.get(tmp_count, None)
+                    if tmp_node:
+                        while True:
+                            if tmp_node.next_node and tmp_node.next_node.count == tmp_count:
+                                tmp_node = tmp_node.next_node
+                            else:
+                                if tmp_node.next_node:
+                                    tmp_node.next_node.front_node = node
+                                node.next_node = tmp_node.next_node
+
+                                node.front_node = tmp_node
+                                tmp_node.next_node = node
+                                break
+                        break
+                    else:
+                        tmp_count += 1
+        self.dic_count[node.count] = node
 
 
 # ["LFUCache","put","put","get","put","get","get","put","get","get","get"]
 # [[2],[1,1],[2,2],[1],[3,3],[2],[3],[4,4],[1],[3],[4]]
-# [[10],[10,13],[3,17],[6,11],[10,5],[9,10],[13],[2,19],[2],[3],[5,25],[8],[9,22],[5,5],[1,30],[11],[9,12],[7],[5],[8],[9],[4,30],[9,3],[9],[10],[10],[6,14],[3,1],[3],[10,11],[8],[2,14],[1],[5],[4],[11,4],[12,24],[5,18],[13],[7,23],[8],[12],[3,27],[2,12],[5],[2,9],[13,4],[8,18],[1,7],[6],[9,29],[8,21],[5],[6,30],[1,12],[10],[4,15],[7,22],[11,26],[8,17],[9,29],[5],[3,4],[11,30],[12],[4,29],[3],[9],[6],[3,4],[1],[10],[3,29],[10,28],[1,20],[11,13],[3],[3,12],[3,8],[10,9],[3,26],[8],[7],[5],[13,17],[2,27],[11,15],[12],[9,19],[2,15],[3,16],[1],[12,17],[9,1],[6,19],[4],[5],[5],[8,1],[11,7],[5,2],[9,28],[1],[2,2],[7,4],[4,22],[7,24],[9,26],[13,28],[11,26]]
+# [[10],[10,13],[3,17],[6,11],[10,5],[9,10],[13],[2,19],[2],[3],[5,25],[8],[9,22],[5,5],[1,30],[11],
+# [9,12],[7],[5],[8],[9],[4,30],[9,3],[9],[10],[10],[6,14],[3,1],[3],[10,11],[8],[2,14],[1],[5],
+# [4],[11,4],[12,24],[5,18],[13],[7,23],[8],[12],[3,27],[2,12],[5],[2,9],[13,4],[8,18],[1,7],
+# [6],[9,29],[8,21],[5],[6,30],[1,12],[10],[4,15],[7,22],[11,26],[8,17],[9,29],[5],[3,4],
+# [11,30],[12],[4,29],[3],[9],[6],[3,4],[1],[10],[3,29],[10,28],[1,20],[11,13],[3],[3,12],
+# [3,8],[10,9],[3,26],[8],[7],[5],[13,17],[2,27],[11,15],[12],[9,19],[2,15],[3,16],[1],[12,17],
+# [9,1],[6,19],[4],[5],[5],[8,1],[11,7],[5,2],[9,28],[1],[2,2],[7,4],[4,22],[7,24],[9,26],[13,28],[11,26]]
 if __name__ == '__main__':
     li = [[10], [10, 13], [3, 17], [6, 11], [10, 5], [9, 10], [13], [2, 19], [2], [3], [5, 25], [8], [9, 22], [5, 5],
           [1, 30], [11], [9, 12], [7], [5], [8], [9], [4, 30], [9, 3], [9], [10], [10], [6, 14], [3, 1], [3], [10, 11],
@@ -193,34 +180,50 @@ if __name__ == '__main__':
           [5, 2], [9, 28], [1], [2, 2], [7, 4], [4, 22], [7, 24], [9, 26], [13, 28], [11, 26]]
 
     obj = LFUCache(li[0][0])
-    # print(obj.get(1))
+
     # obj.put(1, 2)
+    # print(obj.get(1))
+    #
     # print(obj.get(2))
     # obj.put(2, 2)
     # obj.put(3, 2)
     # print(obj.get(2))
     # print(obj.get(1))
+    # print(obj.get(2))
+    # print(obj.get(2))
+    # print(obj.get(2))
+    # print(obj.get(2))
     # print(obj.dic_count, obj.dic, obj.max_count, obj.lase_node)
-
     for i in range(1, len(li)):
-        if i == 58:
-            tt = i
-        if len(li[i]) == 1:
-            obj.get(li[i][0])
-            # print('get', obj.get(li[i][0]), i, li[i], len(obj.dic))
-        else:
-            # print('put:start', i, li[i], len(obj.dic))
-            obj.put(li[i][0], li[i][1])
-            # print('put:end', i, li[i], len(obj.dic))  # , obj.lase_node.key)
-    count = 0
-    tmp = obj.lase_node
-    print(tmp.key, tmp.count, len(obj.dic), '######')
-    while True and count < 11:
-
-        print(tmp.key, tmp.count, len(obj.dic), '------')
-        if tmp.front_node:
-            tmp = tmp.front_node
-        else:
+        try:
+            if i == 63:
+                tt = i
+            if len(li[i]) == 1:
+                # obj.get(li[i][0])
+                print('get', obj.get(li[i][0]), i, li[i], len(obj.dic))
+            else:
+                # print('put:start', i, li[i], len(obj.dic))
+                obj.put(li[i][0], li[i][1])
+                # print('put:end', i, li[i], len(obj.dic))  # , obj.lase_node.key)
+        except Exception as e:
+            print(i)
             break
-        count += 1
-    tmp = obj
+
+
+
+# count = 0
+# tmp = obj.lase_node
+# tmp = obj.dic[5]
+# print(tmp.key, tmp.count, len(obj.dic), '######')
+# while True and count < 11:
+#     print(tmp.key, tmp.count, len(obj.dic), '------')
+#     if tmp.next_node:
+#         tmp = tmp.next_node
+#     else:
+#         print(tmp.key, tmp.count, len(obj.dic), 'endendendend')
+#         break
+#     count += 1
+# print('~~~~~~~~~~~~~~~~~')
+# for i in obj.dic.items():
+#     print(i[0], i[1].count)
+# tmp = obj
