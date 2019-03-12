@@ -26,22 +26,35 @@ class Solution:
         while x > 0:
             result = result * 10 + x % 10
             x = x // 10
+        result = result * sign
+        # if -2 ** 31 < result < 2 ** 31 - 1:
+        #     return result
+        if -(1 << 31) < result < 1 << 31 - 1:
+            return result
+        return 0
         # if len(bin(result)) >= 34:
         #     result = 0
         # result = result * sign
         # return result
 
-        result = result * sign
-        if -2 ** 31 < result < 2 ** 31 - 1:
-            return result
-        return 0
 
+import time
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.reverse(123))
-    print(s.reverse(-123))
-    print(s.reverse(120))
-    print(s.reverse(1534236469))
-    print(s.reverse(-2147483412))
-    print(s.reverse(1563847412))
+    # print(s.reverse(123))
+    # print(s.reverse(-123))
+    # print(s.reverse(120))
+    # print(s.reverse(1534236469))
+    # print(s.reverse(-2147483412))
+    # print(s.reverse(1563847412))
+    t = time.time()
+    for i in range(10000000):
+        s = 2 * 8
+    t1 = time.time()
+    print(t1 - t)
+    t = time.time()
+    for i in range(10000000):
+        s = 2 << 3
+    t1 = time.time()
+    print(t1 - t)
