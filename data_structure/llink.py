@@ -34,6 +34,7 @@ class LLink:
             p = self.head
             while p is not crt and p.elem <= x:
                 p = p.next
+            # 此时p前面全小于x p和crt之间>x
             while p is not crt:
                 y = p.elem
                 p.elem = x
@@ -43,10 +44,53 @@ class LLink:
             crt = crt.next
 
 
+def sort(li):
+    count = len(li)
+    if count <= 1:
+        return li
+    r = 1
+    while r < count:
+        i = 0
+        tmp = li[r]
+        while i < r and li[i] < li[r]:
+            i += 1
+        while i < r:
+            tmp1 = li[i]
+            li[i] = tmp
+            tmp = tmp1
+            i += 1
+        li[r] = tmp
+        r += 1
+    return li
+
+
+def swap(li, i, j):
+    li[i], li[j] = li[j], li[i]
+
+
+li = [9, 6, 8, 1, 5, 7, 4, 3]
+li = sort(li)
+
+
+# print(li)
+
+def josephus_L(n, k, m):
+    people = list(range(1, n + 1))
+    i = k - 1
+    for num in range(n, 0, -1):
+        i = (i + m - 1) % num
+        print(people.pop(i), end=(', ' if num > 1 else '\n'))
+    return
+
+
+josephus_L(10, 2, 7)
+
 if __name__ == '__main__':
     l = LLink()
     for i in range(10):
         l.preappend(i)
+    l.preappend(4)
+    l.preappend(2)
     for i in l.elements():
         print(i.elem)
     l.sort1()
