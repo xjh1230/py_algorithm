@@ -60,6 +60,11 @@ class Solution:
 
     def convert(self, s, num_rows):
         '''
+        找规律  num_rows = 4
+        0     6     12
+        1   5 7   11
+        2 4   8 10
+        3     9
         每一行的前一个元素和后一个元素间隔 （num_rows-1）*2 个元素
         被除数 c 为（num_rows-1）*2
         当前索引除以 c  余 n n>num_rows-1 则n=c-n 则将当前数字放在第n个list

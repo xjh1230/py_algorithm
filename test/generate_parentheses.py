@@ -16,6 +16,7 @@ class Solution:
         '''
         pass
 
+    @lru_cache(None)
     def generateParenthesis1(self, n):
         def backtrack(S='', left=0, right=0):
 
@@ -34,7 +35,6 @@ class Solution:
     def generateParenthesis(self, n):
         def generate(a=[]):
             if len(a) == 2 * n:
-                print(a)
                 if valid(a):
                     ans.append(''.join(a))
             else:
@@ -78,9 +78,60 @@ class Solution:
             result.append(tmp)
         return result
 
+    def generateParenthesis3(self, n):
+        if n == 0: return ['']
+        ans = []
+        for i in range(n):
+            for left in self.generateParenthesis(i):
+                for right in self.generateParenthesis(n - 1 - i):
+                    ans.append('({}){}'.format(left, right))
+        return ans
+
+
+def buildMaxHeap(arr):
+    import math
+    for i in range(math.floor(len(arr) / 2), -1, -1):
+        print(i, arr)
+        heapify(arr, i)
+
+
+def heapify(arr, i):
+    left = 2 * i + 1
+    right = 2 * i + 2
+    largest = i
+    arrLen = len(arr)
+    if left < arrLen and arr[left] > arr[largest]:
+        largest = left
+    if right < arrLen and arr[right] > arr[largest]:
+        largest = right
+
+    if largest != i:
+        swap(arr, i, largest)
+        heapify(arr, largest)
+
+
+def swap(arr, i, j):
+    arr[i], arr[j] = arr[j], arr[i]
+
+
+def heapSort(arr):
+    global arrLen
+    arrLen = len(arr)
+    buildMaxHeap(arr)
+    for i in range(len(arr) - 1, 0, -1):
+        swap(arr, 0, i)
+        arrLen -= 1
+        heapify(arr, 0)
+    return arr
+
 
 if __name__ == '__main__':
-    s = Solution()
-    print(s.generateParenthesis2(3))
-    print(s.generateParenthesis1(3))
+    # s = Solution()
+    # print(s.generateParenthesis3(3))
+    # print(s.generateParenthesis1(3))
+    # print(s.generateParenthesis(3))
     # print(len(s.generateParenthesis1(4)))
+    arr = [1, 4, 5, 2, 7, 6, 9]
+    buildMaxHeap(arr)
+    print(arr)
+    pass
