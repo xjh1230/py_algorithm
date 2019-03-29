@@ -37,6 +37,9 @@ class Solution:
         return str
 
 
+
+
+
 if __name__ == '__main__':
     s = Solution()
     # print(s.swap('1134', 0, 1))
