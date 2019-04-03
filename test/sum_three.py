@@ -2,7 +2,7 @@
 # @Time    : 2019/3/6 10:26
 # @Author  : Xingjh
 # @Email   : xjh_0125@sina.com
-# @File    : three_sum.py
+# @File    : sum_three.py
 # @Software: PyCharm
 
 class Solution:

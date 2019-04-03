@@ -5,19 +5,7 @@
 # software: PyCharm
 
 from tack import SStack
-
-
-class Assoc:
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-
-
-class BinTNode:
-    def __init__(self, assoc, left=None, right=None):
-        self.data = assoc
-        self.left = left
-        self.right = right
+from tree_node import BinTNode
 
 
 class DicBinTree:
@@ -82,12 +70,40 @@ class DicBinTree:
             t = t.right
 
 
+class DictOptBinTree(DicBinTree):
+    def __init__(self, seq):
+        '''
+        最佳二叉树字典
+        :param seq:
+        '''
+        DicBinTree.__init__(self)
+        data = sorted(seq)
+        self._root = DictOptBinTree.builtOBT(data, 0, len(data) - 1)
+
+    @staticmethod
+    def builtOBT(data, start, end):
+        if start > end:
+            return None
+        mid = (start + end) // 2
+        left = DictOptBinTree.builtOBT(data, start, mid - 1)
+        right = DictOptBinTree.builtOBT(data, mid + 1, end)
+        # s = (1, 2)
+        # ss = Assoc(*s)
+        return BinTNode(Assoc(*data[mid]), left, right)
+
+
 import random
 
 if __name__ == '__main__':
-    d = DicBinTree()
-    li = [random.randint(1, 100) for i in range(20)]
-    for i, v in enumerate(li):
-        d.insert(v, i)
+    # d = DicBinTree()
+    # li = [random.randint(1, 100) for i in range(20)]
+    # for i, v in enumerate(li):
+    #     d.insert(v, i)
+    # for i in d.values():
+    #     print(i, end=',')
+    s = 'abcdefghijklmn'
+    seq = [(i, s[i]) for i in range(1, 14)]
+    d = DictOptBinTree(seq)
     for i in d.values():
-        print(i, end=',')
+        print(i)
+    print(seq)

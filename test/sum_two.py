@@ -2,7 +2,7 @@
 # @Time    : 2019/2/27 18:09
 # @Author  : Xingjh
 # @Email   : xjh_0125@sina.com
-# @File    : two_sum.py
+# @File    : sum_two.py
 # @Software: PyCharm
 
 class Solution:

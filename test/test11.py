@@ -64,6 +64,21 @@ class Solution:
         return num
 
 
+def reverse(str):
+    start, end = 0, len(str) - 1
+    str = list(str)
+    while start < end:
+        str[start], str[end] = str[end], str[start]
+        start += 1
+        end -= 1
+    return ''.join(str)
+
+
+print(reverse(''))
+
+li = [[1, 3], [8, 10], [2, 6], [15, 18]]
+li2 = sorted(li, key=lambda s: s[0])
+print(li2)
 if __name__ == '__main__':
     s = Solution()
     # print(s.longestPalindrome("ababababa"))
