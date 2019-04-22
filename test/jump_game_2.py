@@ -75,6 +75,11 @@ class Solution:
         return step
 
     def jump4(self, nums) -> int:
+        '''
+        一次循环跑到最远的
+        :param nums:
+        :return:
+        '''
         step, start, end, far = 0, 0, 0, 0
         while end < len(nums) - 1:
             step += 1
