@@ -36,10 +36,13 @@ def test(loop):
 def test2():
     sqlsever_orm.create_pool(**configs.db)
     u = User2(id=5, name='3333')
-    u.update()
-    users = u.findAll()
-    for i in users:
-        print(i)
+    print(u)
+    u.name = '2333'
+    print(u)
+    # u.update()
+    # users = u.findAll()
+    # for i in users:
+    #     print(i)
 
 
 if __name__ == '__main__':
