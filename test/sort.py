@@ -132,6 +132,7 @@ class Solution:
         mid = len(arr) // 2
         for i in range(mid, -1, -1):
             self.heapify1(arr, len(arr) - 1, i)
+            print(arr)
 
     def sort_heap1(self, arr):
         size = len(arr) - 1
@@ -157,7 +158,9 @@ class Solution:
 if __name__ == '__main__':
     s = Solution()
     arr = [4, 5, 3, 9, 1, 8, 6, 2, 7, 2, 1]
-    s.heap_sort(arr)
+    print(len(arr))
+    print(arr)
+    s.heap_sort1(arr)
     print(arr)
     # arr2 = s.merge_sort(arr)
     # print(arr2, len(arr), len(arr2), s.count)  # 34
