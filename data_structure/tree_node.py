@@ -26,3 +26,30 @@ class AVLNode(BinTNode):
     def __init__(self, data):
         BinTNode.__init__(data)
         self.bf = 0
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+    @staticmethod
+    def print_tree(node, has_none=True):
+        li = []
+        li_node = [node]
+        while len(li_node) > 0:
+            tmp = li_node.pop(0)
+            if tmp:
+                li.append(tmp.val)
+                li_node.append(tmp.left)
+                li_node.append(tmp.right)
+            else:
+                if has_none:
+                    li.append(None)
+        for i in range(len(li) - 1, -1, -1):
+            if li[i] == None:
+                li.pop(i)
+            else:
+                break
+        return li
