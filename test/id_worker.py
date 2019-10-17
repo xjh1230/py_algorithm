@@ -67,7 +67,7 @@ class IdWorker:
 
     def get_next_mills(self):
         time_stamp = self.time_gen()
-        while time_stamp < self.last_time_stamp:
+        while time_stamp <= self.last_time_stamp:
             time_stamp = self.time_gen()
         return time_stamp
 
