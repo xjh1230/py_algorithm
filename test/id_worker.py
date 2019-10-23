@@ -12,7 +12,7 @@ import time
 class IdWorker:
     def __init__(self, work_id, data_center_id, sequence):
         '''
-        snowflake 实现全局唯一ID
+        Twitter snowflake 实现全局唯一ID
         1bit( 0 无意义，表示正数)|41bit(当前时间戳，到毫秒)|5bit(当前机房Id)|5bit(当前机器Id)|12bit(当前机房当前机器当前毫秒内生成的Id)
         总共64bit
         '''

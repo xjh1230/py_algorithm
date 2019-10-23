@@ -11,6 +11,10 @@ import time
 class LFUCache:
     def __init__(self, capacity):
         """
+        名称概念：
+        LRU (Least recently used) 最近最少使用，如果数据最近被访问过，那么将来被访问的几率也更高。
+        LFU (Least frequently used) 最不经常使用，如果一个数据在最近一段时间内使用次数很少，那么在将来一段时间内被使用的可能性也很小。
+        FIFO (Fist in first out) 先进先出， 如果一个数据最先进入缓存中，则应该最早淘汰掉。
         设计并实现最不经常使用（LFU）缓存的数据结构。它应该支持以下操作：get 和 put。
 
 get(key) - 如果键存在于缓存中，则获取键的值（总是正数），否则返回 -1。
