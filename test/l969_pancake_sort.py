@@ -31,9 +31,10 @@ https://leetcode-cn.com/problems/pancake-sorting
             # max_index = self.get_max_index(A) + 1
             max_index = A.index(max(A)) + 1
             if max_index != len(A):
-                if max_index != 1:
-                    res.append(max_index)
-                    self.reversed_arr(A, max_index)
+                # if max_index != 1:
+                res.append(max_index)
+                self.reversed_arr(A, max_index)
+                # if len(A) != 1:
                 res.append(len(A))
                 self.reversed_arr(A, len(A))
             res.extend(self.pancakeSort(A[:len(A) - 1]))
@@ -60,6 +61,7 @@ https://leetcode-cn.com/problems/pancake-sorting
 
 if __name__ == '__main__':
     s = Solution()
-    li = [3, 2, 4, 1]
+    li = [3, 2, 4, 1, 7, 5, 6]
     res = s.pancakeSort(li)
-    print(res)
+    res1 = s.pancakeSort1(li)
+    print(res, res1)
