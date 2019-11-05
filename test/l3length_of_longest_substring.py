@@ -2,7 +2,7 @@
 # @Time    : 2019/2/28 9:55
 # @Author  : Xingjh
 # @Email   : xjh_0125@sina.com
-# @File    : length_of_longest_substring.py
+# @File    : l3length_of_longest_substring.py
 # @Software: PyCharm
 
 class Solution:
@@ -44,10 +44,10 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.lengthOfLongestSubstring('pwwkew'))
-    print(s.lengthOfLongestSubstring('bbbbb'))
-    print(s.lengthOfLongestSubstring('abcabcbb'))
-    print(s.lengthOfLongestSubstring('abcdefabc'))
-    print(s.lengthOfLongestSubstring('dvdf'))
-    print(s.lengthOfLongestSubstring('abba'))
-    print(s.lengthOfLongestSubstring(''))
+    print(s.lengthOfLongestSubstring('pwkwew'))
+    # print(s.lengthOfLongestSubstring('bbbbb'))
+    # print(s.lengthOfLongestSubstring('abcabcbb'))
+    # print(s.lengthOfLongestSubstring('abcdefabc'))
+    # print(s.lengthOfLongestSubstring('dvdf'))
+    # print(s.lengthOfLongestSubstring('abba'))
+    # print(s.lengthOfLongestSubstring(''))
