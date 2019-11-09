@@ -30,8 +30,6 @@ class Solution:
         :param s2:
         :return:
         '''
-        # s1 = 'abcdefgh'
-        # s2 = 'aedf'
         if len(s) == 0 or len(s2) == 0:
             return ''
         c1, c2, max_c = len(s), len(s2), 0
@@ -55,29 +53,26 @@ class Solution:
         :param s2:aeadf
         :return:
         '''
-        # if len(s) > len(s2):
-        #     s, s2 = s2, s
         c1, c2, max_c = len(s), len(s2), 0
-        dp = [[0 for i in range(c2)] for j in range(c1)]
-        for i, val_i in enumerate(s):
-            for j, val_j in enumerate(s2):
+        dp = [[0 for i in range(c2 + 1)] for j in range(c1 + 1)]
+        for i, val_i in enumerate(s, start=1):
+            for j, val_j in enumerate(s2, start=1):
                 if val_i == val_j:
-                    if i == 0 or j == 0:
-                        dp[i][j] = 1
-                    else:
-                        dp[i][j] = dp[i - 1][j - 1] + 1  # dp[i][j - 1],
-                    max_c = max(dp[i][j], max_c)
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                    # if i == 0 or j == 0:
+                    #     dp[i][j] = 1
+                    # else:
+                    #     dp[i][j] = dp[i - 1][j - 1] + 1
+                    # max_c = max(dp[i][j], max_c)
                 else:
-                    if i > 0 and j > 0:
-                        dp[i][j] = max(dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j])
-                    elif j > 0:
-                        dp[i][j] = dp[i][j - 1]
-                    elif i > 0:
-                        dp[i][j] = dp[i - 1][j]
-
-        for i in dp:
-            print(i)
-        return max_c
+                    dp[i][j] = max(dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j])
+                    # if i > 0 and j > 0:
+                    #     dp[i][j] = max(dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j])
+                    # elif j > 0:
+                    #     dp[i][j] = dp[i][j - 1]
+                    # elif i > 0:
+                    #     dp[i][j] = dp[i - 1][j]
+        return dp[-1][-1]
 
 
 if __name__ == '__main__':
