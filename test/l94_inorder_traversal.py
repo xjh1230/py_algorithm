@@ -74,6 +74,18 @@ class Solution:
             否则
                 a. 在current的左子树中，令current成为最右侧节点的右子节点
                 b. 进入左子树，亦即，current = current.left
+                 X                   Y                   A
+               /   \                / \                   \
+              Y     Z              A   B                   Y
+             / \   / \                  \                 / \
+            A   B C   D                  X              (A)  B
+                                        / \                   \
+                                      (Y)  Z                   X
+                                          / \                 / \
+                                         C   D	            (Y)  Z
+                                                                / \
+                                                               C   D
+
         :param root:
         :return:
         '''
