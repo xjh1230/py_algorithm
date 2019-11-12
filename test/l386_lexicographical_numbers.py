@@ -65,6 +65,6 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    li = s.lexicalOrder(2000)
+    li = s.lexicalOrder(200)
     print(li)
     print(len(li))
