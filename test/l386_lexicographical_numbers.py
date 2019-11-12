@@ -2,7 +2,7 @@
 # @Time    : 2019/7/9 17:41
 # @Author  : Xingjh
 # @Email   : xjh_0125@sina.com
-# @File    : lexicographical_numbers.py
+# @File    : l386_lexicographical_numbers.py
 # @Software: PyCharm
 
 class Solution:
