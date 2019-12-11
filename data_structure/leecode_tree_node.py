@@ -5,6 +5,8 @@
 # @Time    : 2019/11/6 16:44
 # @Software: PyCharm
 # @File    : leecode_tree_node.py
+import math
+
 
 class TreeNode:
     def __init__(self, x):
@@ -45,7 +47,7 @@ def gen_tree_node(s, li):
         return t
 
 
-def print_tree(t):
+def print_tree(t, has_none=False):
     li = []
     stack = [t]
     while stack:
@@ -54,19 +56,74 @@ def print_tree(t):
             li.append(cur.val)
             if cur.left:
                 stack.append(cur.left)
-            else:
-                # li.append(None)
-                pass
             if cur.right:
                 stack.append(cur.right)
-            else:
-                # li.append(None)
-                pass
+            if has_none:
+                if not cur.left:
+                    stack.append(None)
+                if not cur.right:
+                    stack.append(None)
+        elif has_none:
+            li.append(None)
+
     return li
 
 
+def to_li(t: TreeNode):
+    if t:
+        stack = [t]
+        res = []
+        while stack:
+            cur = stack.pop(0)
+            if cur:
+                stack.append(cur.left)
+                stack.append(cur.right)
+                res.append(cur.val)
+            else:
+                res.append(None)
+        return res
+    else:
+        return None
+
+
+def to_fullli(t: TreeNode):
+    if t:
+        stack = [t]
+        res = []
+        dep = 0
+        while stack:
+            c = len(stack)
+            tmp = [None] * 2 * c
+            has_next = False
+            i = 0
+            dep += 1
+            while stack:
+                cur = stack.pop(0)
+                if cur:
+                    has_next = True
+                    res.append(cur.val)
+                    tmp[i * 2] = cur.left
+                    tmp[i * 2 + 1] = cur.right
+                else:
+                    res.append(None)
+                    tmp[i * 2] = None
+                    tmp[i * 2 + 1] = None
+                i += 1
+            if has_next:
+                stack = tmp
+        res = res[:int(math.pow(2, dep - 1)) - 1]
+        return res
+
+
 if __name__ == '__main__':
+    def test_li(li):
+        t = gen_tree(li)
+        li2 = print_tree(t, has_none=True)
+        return li2
+
+
     li = [1, None, 2, 3, 4, 5, 6]
+    li = [4, -9, 5, None, -1, None, 8, -6, 0, 7, None, None, -2, None, None, None, None, -3]
     t = gen_tree(li)
-    li2 = print_tree(t)
-    print(li, li2)
+    li2 = print_tree(t, True)
+    print(li2)
