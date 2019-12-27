@@ -6,6 +6,6 @@
 # @Software: PyCharm
 # @File    : __init__.py.py
 
-
+# https://leetcode-cn.com/explore/orignial/card/all-about-array/
 #https://leetcode-cn.com/explore/orignial/card/all-about-array/230/define-with-good-care/
 
