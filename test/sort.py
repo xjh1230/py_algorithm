@@ -68,11 +68,10 @@ class Solution:
             self.count += 1
             if arr[left] <= arr[index]:
                 left += 1
+            elif arr[right] > arr[index]:
+                right -= 1
             else:
-                if arr[right] > arr[index]:
-                    right -= 1
-                else:
-                    self.swap(arr, left, right)
+                self.swap(arr, left, right)
         if arr[right] > arr[index]:
             self.swap(arr, right, index)
         return right
@@ -154,16 +153,41 @@ class Solution:
                 l = top * 2 + 1
                 r = top * 2 + 2
 
+    def quick_sort1(self, arr, l=None, r=None):
+        l = l if isinstance(l, int) else 0
+        r = l if isinstance(r, int) else len(arr) - 1
+
+        def partition(arr, l, r):
+            index = r
+            r -= 1
+            while l <= r:
+                if arr[l] < arr[index]:
+                    l += 1
+                elif arr[r] >= arr[index]:
+                    r -= 1
+                else:
+                    self.swap(arr, l, r)
+                    l += 1
+            if arr[r] > arr[index]:
+                self.swap(arr, r, index)
+            return r
+
+        mid = partition(arr, l, r)
+        self.quick_sort(arr, 0, mid)
+        self.quick_sort(arr, mid + 1, len(arr) - 1)
+        # print(arr)
+        return arr
+
 
 if __name__ == '__main__':
     s = Solution()
     arr = [4, 5, 3, 9, 1, 8, 6, 2, 7, 2, 1]
-    print(len(arr))
-    print(arr)
-    s.heap_sort1(arr)
-    print(arr)
+    # print(len(arr))
+    # print(arr)
+    # s.heap_sort1(arr)
+    # print(arr)
     # arr2 = s.merge_sort(arr)
     # print(arr2, len(arr), len(arr2), s.count)  # 34
     # s.count = 0
-    # arr2 = s.quick_sort(arr)
-    # print(arr2, len(arr), len(arr2), s.count)  # 62
+    arr2 = s.quick_sort1(arr)
+    print(arr2, len(arr), len(arr2), s.count)  # 62

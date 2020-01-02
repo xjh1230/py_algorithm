@@ -22,11 +22,26 @@ def get_all_path():
                     if file != file_new:
                         shutil.move(os.path.join(child, file), os.path.join(child, file_new))
 
-get_all_path()
+
+# get_all_path()
 p = 'D:\BaiduNetdiskDownload\笔记+源代码(1)\笔记+源代码\CSS&CSS3资料\CSS3入门及提高资料\CSS3入门及提高资料\CSS3入门及提高01和02\案例'
+
+
 # for root, dirs, files in os.walk(p):
 #     print(root)
 #     print(dirs)
 #     print(files)
 #     shutil.move(os.path.join(root, files[0]), os.path.join(root, '1.html'))
 #     break
+
+
+def rename_img():
+    path = 'img2'
+    path_dir = os.listdir(path)
+    i = 1
+    for p in path_dir:
+        shutil.move(os.path.join(path, p), os.path.join('img2', str(i) + '.png'))
+        i += 1
+
+
+rename_img()
