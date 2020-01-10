@@ -2,7 +2,7 @@
 # @Time    : 2019/2/13 9:45
 # @Author  : Xingjh
 # @Email   : xjh_0125@sina.com
-# @File    : z_convert.py
+# @File    : l6_z_convert.py
 # @Software: PyCharm
 
 class Solution:
@@ -92,18 +92,32 @@ class Solution:
             result += ''.join(i)
         return result
 
+    def convert2(self, s: str, numRows: int) -> str:
+        result = ['' for _ in range(numRows)]
+        if numRows < 2:
+            return s
+        flag = -1
+        i = 0
+        for each in s:
+            result[i] += each
+            if i == 0 or i == numRows - 1:
+                flag = -flag
+            i += flag
+        print(result)
+        return ''.join(result)
+
     def test(self):
         s = 'LEETCODEISHIRING'
         num_rows = 4
-        print(self.convert(s, num_rows), s)
-        num_rows = 3
-        print(self.convert(s, num_rows), s)
-        s = 'A'
-        num_rows = 1
-        print(self.convert(s, num_rows), s)
-        s = 'ABC'
-        num_rows = 2
-        print(self.convert(s, num_rows), s)
+        print(self.convert2(s, num_rows), s)
+        # num_rows = 3
+        # print(self.convert(s, num_rows), s)
+        # s = 'A'
+        # num_rows = 1
+        # print(self.convert(s, num_rows), s)
+        # s = 'ABC'
+        # num_rows = 2
+        # print(self.convert(s, num_rows), s)
 
 
 if __name__ == '__main__':
