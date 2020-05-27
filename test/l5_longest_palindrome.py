@@ -77,6 +77,7 @@ https://leetcode-cn.com/problems/longest-palindromic-substring
         maxc, dic = 1, {1: [s[0]]}
         s = '^' + ''.join(i + '#' for i in s)
         s = s[:-1] + '$'
+        print(s)
         start, end = 0, len(s)
 
         while start < end:
@@ -132,6 +133,7 @@ https://leetcode-cn.com/problems/longest-palindromic-substring
 
 if __name__ == '__main__':
     sc = Solution()
-    s = '123'
+    s = '12322'
     s2 = '1234'
-    print(sc.longestCommonSubstring(s, s2))
+    print(sc.longestPalindrome(s))
+    print(sc.longestCommonSubstring(s,s2))
