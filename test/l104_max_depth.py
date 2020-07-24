@@ -26,7 +26,7 @@ class Solution:
 
     def maxDepth(self, root) -> int:
         '''
-        广度优先
+        广度优先s
         :param root:
         :return:
         '''

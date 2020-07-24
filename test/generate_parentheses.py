@@ -87,51 +87,46 @@ class Solution:
                     ans.append('({}){}'.format(left, right))
         return ans
 
+    def generateParenthesis4(self, n):
+        res = []
 
-def buildMaxHeap(arr):
-    import math
-    for i in range(math.floor(len(arr) / 2), -1, -1):
-        print(i, arr)
-        heapify(arr, i)
+        def recur(left, right, s):
+            # 终止条件
+            if left == n and right == n:
+                # print(s)
+                res.append(s)
+                return
+            # 当前逻辑
 
+            # 往下递归
+            if left < n:
+                recur(left + 1, right, s + "(")
+            if right < left:
+                recur(left, right + 1, s + ')')
 
-def heapify(arr, i):
-    left = 2 * i + 1
-    right = 2 * i + 2
-    largest = i
-    arrLen = len(arr)
-    if left < arrLen and arr[left] > arr[largest]:
-        largest = left
-    if right < arrLen and arr[right] > arr[largest]:
-        largest = right
+            # 状态处理
+            # pass
 
-    if largest != i:
-        swap(arr, i, largest)
-        heapify(arr, largest)
+        recur(0, 0, '')
+        return res
 
+    def generateParenthesis5(self, n):
+        def generate(p, left, right, parens=[]):
+            if left:
+                generate(p + '(', left - 1, right)
+            if right > left:
+                generate(p + ')', left, right - 1)
+            if not right: parens += p,
+            return parens
 
-def swap(arr, i, j):
-    arr[i], arr[j] = arr[j], arr[i]
-
-
-def heapSort(arr):
-    global arrLen
-    arrLen = len(arr)
-    buildMaxHeap(arr)
-    for i in range(len(arr) - 1, 0, -1):
-        swap(arr, 0, i)
-        arrLen -= 1
-        heapify(arr, 0)
-    return arr
+        return generate('', n, n)
 
 
 if __name__ == '__main__':
-    # s = Solution()
-    # print(s.generateParenthesis3(3))
+    s = Solution()
+    print(s.generateParenthesis5(3))
     # print(s.generateParenthesis1(3))
     # print(s.generateParenthesis(3))
     # print(len(s.generateParenthesis1(4)))
-    arr = [1, 4, 5, 2, 7, 6, 9]
-    buildMaxHeap(arr)
-    print(arr)
-    pass
+
+    # pass
