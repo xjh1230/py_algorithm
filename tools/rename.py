@@ -44,4 +44,13 @@ def rename_img():
         i += 1
 
 
-rename_img()
+# rename_img()
+
+def method(a, b, **kw):
+    print(a, b)
+    print(kw)
+
+
+if __name__ == '__main__':
+    method(a=1, b=2)
+    method(a=1, b=2, c=3, d=4, e=5)

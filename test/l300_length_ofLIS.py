@@ -43,6 +43,7 @@ class Solution:
         return max(dp)
 
     def lengthOfLIS(self, nums) -> int:
+        # [1,7,2,4,5,3,4,5]
         if len(nums) < 2:
             return len(nums)
         res = []
@@ -52,6 +53,7 @@ class Solution:
             else:
                 index = bisect.bisect_left(res, n)
                 res[index] = n
+        print(res)
         return len(res)
 
 
@@ -60,5 +62,6 @@ if __name__ == '__main__':
     nums = [10, 9, 2, 5, 3, 7, 101, 18]
     nums = [1, 2, 3, 4, 5, 6, 7]
     nums = [1, 7, 8, 2, 3, 4, 5, 9, 10, 11, 12]
+    nums = [1, 7, 2, 4, 5, 3, 6]
     res = s.lengthOfLIS(nums)
     print(res)

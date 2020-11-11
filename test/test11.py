@@ -154,16 +154,27 @@ print(reverse(''))
 
 li = [[1, 3], [8, 10], [2, 6], [15, 18]]
 li2 = sorted(li, key=lambda s: s[0])
-print(li2)
+
+
+def test(a, b, **kw):
+    print(a, b)
+    print(kw)
+
+
+
+
+# print(li2)
 if __name__ == '__main__':
     s = Solution()
     # li = [1, 2, 3, 5, 6, 7, 8, 9]
     # print(s.search(li, 1))
     # print(s.longestPalindrome("cdababababadd"))
-    print(s.superEggDrop(2, 10))
-    print(s.superEggDrop2(2, 10))
+    # print(s.superEggDrop(2, 10))
+    # print(s.superEggDrop2(2, 10))
     # print(s.romanToInt('III'))
     # print(s.romanToInt('IV'))
     # print(s.romanToInt('III'))
     # print(s.romanToInt('LVIII'))
     # print(s.romanToInt('MCMXCIV'))
+    test(a=1, b=2)
+    test(a=1, b=2, c=3, d=4, e=5)
