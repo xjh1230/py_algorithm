@@ -29,7 +29,7 @@ class Solution:
         解释：从根目录向上一级是不可行的，因为根是你可以到达的最高级。
         '''
 
-    def simplifyPath(self, path: str) -> str:
+    def simplifyPath(self, path):
         path = path.replace('//', '/').replace('/./', '/')
         arr = path.split('/')
         li = []
@@ -47,5 +47,5 @@ class Solution:
 if __name__ == '__main__':
     s = Solution()
     p = '/a/../../b/../c//.//'
-    p = "/a//b////c/d//././/.."
+    # p = "/a//b////c/d//././/.."
     print(s.simplifyPath(p))
