@@ -48,6 +48,11 @@ class find_diff_num:
         return [tmp_0, tmp_1]
 
     def find_3(self, nums):
+        '''
+        给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。
+        :param nums:
+        :return:
+        '''
         nums.sort()
         pre = nums[0]
         appeared = False
