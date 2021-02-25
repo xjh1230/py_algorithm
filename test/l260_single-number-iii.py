@@ -47,8 +47,52 @@ class find_diff_num:
         tmp_0 = tmp ^ tmp_1
         return [tmp_0, tmp_1]
 
+    def find_3(self, nums):
+        nums.sort()
+        pre = nums[0]
+        appeared = False
+        for i in range(1, len(nums)):
+            cur = nums[i]
+            if pre == cur:
+                appeared = True
+            else:
+                if appeared:
+                    pre = cur
+                    appeared = False
+                else:
+                    return pre
+        return pre
+
+    def find_3_1(self, nums):
+        one = two = 0
+        for i in nums:
+            # 两次+这次是=3次
+            three = two & i
+            # 两次+本次不是 或者一次+这次是=2
+            two = (two & ~i) | (one & i)
+            # 这次是就是奇数次的
+            one = one ^ i
+            # 移除3次的
+            one = one & (~three)
+        return one
+
+    def find_3_2(self, nums):
+        seen_1 = seen_2 = 0
+        for i in nums:
+            '''
+            第一次出现，添加到seen_one
+            第二次出现，移除seen_once,添加seen_twice
+            第三次出现，移除seen_twice,并不添加seen_one
+            ~seen_2 & num  表示把数从seen_twice移除
+            ~seen_1 & num   表示把数从seen_once移除
+            第三次出现时，第二次的twice为1，~twice为0，所以once依然为0，第三次的twice=num^num=0，相当于把num从twice中删除
+            '''
+            seen_1 = ~seen_2 & (seen_1 ^ i)
+            seen_2 = ~seen_1 & (seen_2 ^ i)
+        return seen_1
+
 
 if __name__ == '__main__':
     s = find_diff_num()
-    arr = [1, 2, 3, 4, 5, 4, 2, 1]
-    print(s.find_2(arr))
+    arr = [2, 2, 2, 3, 3, 3, 4, 4, 4, 5]
+    print(s.find_3_1(arr))
